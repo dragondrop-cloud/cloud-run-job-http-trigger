@@ -3,7 +3,6 @@ Root url app blueprint.
 """
 import os
 
-import requests
 import subprocess
 from flask import Blueprint, request, current_app
 
@@ -18,20 +17,12 @@ def execute_cloud_run_job():
     """
     try:
         request_json = request.get_json()
-        # TODO: Retrieve access token from Cloud Run Service Account via the metadata server
         if "job_run_id" not in request_json:
             raise ValueError("Post request must contain a 'job_run_id'")
 
-        # TODO: Should be fine, as long as the cloud run instance is in the same project and
-        # TODO: region as the job itself.
         job_name = os.getenv("JOB_NAME")
 
-        # TODO: Can gcloud be run in the container and authenticate successfully? The answer looks to be yes!
-        # TODO: Make HTTPS request to update the Cloud Run job to have a new env variable value
-        # TODO: for DRAGONDROP_JOBID. This is necessary since the execution body must itself be empty and cannot
-        # TODO: pass variables directly.
-
-        # TODO: Also should update the image to be the latest image
+        # TODO: Prior to public release, this should update the image to be the latest image prior to public release
         result = subprocess.run(
             ["gcloud", "beta", "run", "jobs", "update", job_name, f"--update-env-vars=DRAGONDROP_JOBID={request_json['job_run_id']}"],
             capture_output=True,
