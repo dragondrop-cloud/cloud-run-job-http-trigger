@@ -1,8 +1,8 @@
 name: Cloud Run Service Image Deployment
-on: push
-#  push:
-#    branches:
-#      - main
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   go-binary-to-artifact-registry:
