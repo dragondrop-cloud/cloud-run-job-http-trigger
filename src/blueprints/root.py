@@ -21,10 +21,12 @@ def execute_cloud_run_job():
             raise ValueError("Post request must contain a 'job_run_id'")
 
         job_name = os.getenv("JOB_NAME")
+        job_region = os.getenv("JOB_REGION")
+        region_flag = f"--region={job_region}"
 
-        # TODO: Prior to public release, this should update the image to be the latest image prior to public release
+        # TODO: This should update the image to be the latest released version of the image
         result = subprocess.run(
-            ["gcloud", "beta", "run", "jobs", "update", job_name, f"--update-env-vars=DRAGONDROP_JOBID={request_json['job_run_id']}"],
+            ["gcloud", "beta", "run", "jobs", "update", job_name, region_flag, f"--update-env-vars=DRAGONDROP_JOBID={request_json['job_run_id']}"],
             capture_output=True,
             text=True,
         )
@@ -32,7 +34,7 @@ def execute_cloud_run_job():
 
         # Triggering the job to actually run
         result = subprocess.run(
-            ["gcloud", "beta", "run", "jobs", "execute", job_name],
+            ["gcloud", "beta", "run", "jobs", "execute", job_name, f"--region={job_region}"],
             capture_output=True,
             text=True,
         )
