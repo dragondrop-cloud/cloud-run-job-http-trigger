@@ -25,20 +25,22 @@ def execute_cloud_run_job():
         region_flag = f"--region={job_region}"
 
         # TODO: This should update the image to be the latest released version of the image
+        current_app.logger.info(f"Updating the Cloud Run Job {job_name} in {job_region}")
         result = subprocess.run(
             ["gcloud", "beta", "run", "jobs", "update", job_name, region_flag, f"--update-env-vars=DRAGONDROP_JOBID={request_json['job_run_id']}"],
             capture_output=True,
             text=True,
         )
-        current_app.logger.info(result.stdout + "\n" + result.stderr)
+        current_app.logger.info(f"Std. Out: {result.stdout}\nStd. Error: {result.stderr}")
 
         # Triggering the job to actually run
+        current_app.logger.info(f"Invoking the Cloud Run Job {job_name} in {job_region}")
         result = subprocess.run(
             ["gcloud", "beta", "run", "jobs", "execute", job_name, f"--region={job_region}"],
             capture_output=True,
             text=True,
         )
-        current_app.logger.info(result.stdout + "\n" + result.stderr)
+        current_app.logger.info(f"Std. Out: {result.stdout}\nStd. Error: {result.stderr}")
 
         return "Cloud Run Job successfully triggered", 201
     except Exception as e:
