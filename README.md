@@ -22,4 +22,6 @@ step 2.
 Now, dragondrop will handle scheduled or manual executions of the self-hosted engine, all without needing to store any credentials!
 
 ## Quick Start (with Terraform)
-_Coming soon_
+Our Terraform module for the dragondrop.cloud container also creates a Cloud Run Service in GCP that hosts this container.
+
+The repository that defines this module can be found [here](https://github.com/dragondrop-cloud/terraform-google-dragondrop-compute).
