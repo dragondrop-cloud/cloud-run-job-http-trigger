@@ -61,6 +61,6 @@ def _generate_update_env_vars_string(request_json: dict) -> str:
 
     for request_var in request_var_to_env_var.keys():
         if request_var in request_json:
-            base_string += f",DRAGONDROP_{request_var_to_env_var[request_var]}={request_var}"
+            base_string += f",DRAGONDROP_{request_var_to_env_var[request_var]}={request_json[request_var]}"
 
     return base_string

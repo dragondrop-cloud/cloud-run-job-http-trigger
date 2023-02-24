@@ -1,0 +1,21 @@
+name: backend continuous integration (CI)
+on:
+  push:
+    paths:
+      - src/blueprints/**
+
+jobs:
+  test-python:
+    runs-on: ubuntu-latest
+    container: python:3.10.1-slim-buster
+
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+
+      - name: Install dependencies & run tests
+        run: |
+          pip3 install -r requirements.txt
+          coverage run -m pytest
