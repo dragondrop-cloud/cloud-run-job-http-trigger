@@ -14,4 +14,3 @@ def create_app() -> Flask:
     app.register_blueprint(root, url_prefix="")
 
     return app
-
