@@ -18,4 +18,4 @@ jobs:
       - name: Install dependencies & run tests
         run: |
           pip3 install -r requirements.txt
-          coverage run -m pytest
+          pytest
