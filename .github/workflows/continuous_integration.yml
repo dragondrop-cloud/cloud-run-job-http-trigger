@@ -1,8 +1,9 @@
-name: backend continuous integration (CI)
+name: continuous integration (CI)
 on:
   push:
     paths:
       - src/blueprints/**
+      - src/tests/**
 
 jobs:
   test-python:
@@ -18,4 +19,4 @@ jobs:
       - name: Install dependencies & run tests
         run: |
           pip3 install -r requirements.txt
-          coverage run -m pytest
+          coverage run -m pytest --cov-config=./tests/.coveragerc
