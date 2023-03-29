@@ -7,13 +7,11 @@ def test_generate_update_env_vars_string():
     """Unit test for the _generate_update_env_vars_string"""
     case = TestCase()
 
-    input_request_json_no_other_vars = {
-        "job_run_id": "my_id"
-    }
+    input_request_json_no_other_vars = {"job_run_id": "my_id"}
 
     input_request_json_one_other_var = {
         "job_run_id": "my_id",
-        "resource_black_list": "google_storage_bucket;aws_vpc"
+        "resource_black_list": "google_storage_bucket;aws_vpc",
     }
 
     input_request_json_all_vars = {
@@ -25,15 +23,15 @@ def test_generate_update_env_vars_string():
 
     case.assertEqual(
         _generate_update_env_vars_string(input_request_json_no_other_vars),
-        "--update-env-vars=DRAGONDROP_JOBID=my_id"
+        "--update-env-vars=DRAGONDROP_JOBID=my_id",
     )
 
     case.assertEqual(
         _generate_update_env_vars_string(input_request_json_one_other_var),
-        "--update-env-vars=DRAGONDROP_JOBID=my_id,DRAGONDROP_RESOURCEBLACKLIST=google_storage_bucket;aws_vpc"
+        "--update-env-vars=DRAGONDROP_JOBID=my_id,DRAGONDROP_RESOURCEBLACKLIST=google_storage_bucket;aws_vpc",
     )
 
     case.assertEqual(
         _generate_update_env_vars_string(input_request_json_all_vars),
-        "--update-env-vars=DRAGONDROP_JOBID=my_id,DRAGONDROP_RESOURCEWHITELIST=google_example_resource,DRAGONDROP_RESOURCEBLACKLIST=google_storage_bucket;aws_vpc,DRAGONDROP_ISMODULEMODE=True"
+        "--update-env-vars=DRAGONDROP_JOBID=my_id,DRAGONDROP_RESOURCEWHITELIST=google_example_resource,DRAGONDROP_RESOURCEBLACKLIST=google_storage_bucket;aws_vpc,DRAGONDROP_ISMODULEMODE=True",
     )
