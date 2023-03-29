@@ -1,4 +1,4 @@
-name: Cloud Run Service Image Deployment
+name: Cloud Run Service Image Deployment to Google Artifact Repository
 on:
   push:
     branches:

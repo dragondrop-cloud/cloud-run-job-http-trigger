@@ -1,8 +1,9 @@
-name: backend continuous integration (CI)
+name: continuous integration (CI)
 on:
   push:
     paths:
       - src/blueprints/**
+      - src/tests/**
 
 jobs:
   test-python:
