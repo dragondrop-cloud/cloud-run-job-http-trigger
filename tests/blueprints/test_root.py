@@ -33,5 +33,5 @@ def test_generate_update_env_vars_string():
 
     case.assertEqual(
         _generate_update_env_vars_string(input_request_json_all_vars),
-        "--update-env-vars=DRAGONDROP_JOBID=my_id,DRAGONDROP_RESOURCEWHITELIST=google_example_resource,DRAGONDROP_RESOURCEBLACKLIST=google_storage_bucket;aws_vpc,DRAGONDROP_ISMODULEMODE=True",
+        "--update-env-vars=DRAGONDROP_JOBID=my_id,DRAGONDROP_ISMODULEMODE=True,DRAGONDROP_RESOURCEWHITELIST=google_example_resource,DRAGONDROP_RESOURCEBLACKLIST=google_storage_bucket;aws_vpc",
     )
