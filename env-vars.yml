@@ -1,0 +1,4 @@
+DRAGONDROP_ISMODULEMODE: 'true'
+DRAGONDROP_JOBID: my_id
+DRAGONDROP_RESOURCEBLACKLIST: '["google_storage_bucket", "aws_vpc"]'
+DRAGONDROP_RESOURCEWHITELIST: '["google_example_resource"]'
