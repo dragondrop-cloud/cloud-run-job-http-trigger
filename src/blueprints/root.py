@@ -2,8 +2,9 @@
 Root url app blueprint.
 """
 import os
-
 import subprocess
+import yaml
+from typing import Tuple
 from flask import Blueprint, request, current_app
 
 root = Blueprint("root", __name__)
@@ -24,6 +25,8 @@ def execute_cloud_run_job():
         job_region = os.getenv("JOB_REGION")
         region_flag = f"--region={job_region}"
 
+        file_path_flag, _ = _generate_update_env_vars_file(request_json=request_json)
+
         current_app.logger.info(
             f"Updating the Cloud Run Job {job_name} in {job_region}"
         )
@@ -36,7 +39,7 @@ def execute_cloud_run_job():
                 "update",
                 job_name,
                 region_flag,
-                _generate_update_env_vars_string(request_json=request_json),
+                file_path_flag,
             ],
             capture_output=True,
             text=True,
@@ -71,13 +74,15 @@ def execute_cloud_run_job():
         return f"Server Error: {e}", 500
 
 
-def _generate_update_env_vars_string(request_json: dict) -> str:
+def _generate_update_env_vars_file(request_json: dict) -> Tuple[str, dict]:
     """
     Helper function to generate the right string for the update-env-vars feature flag.
     """
-    base_string = f"--update-env-vars=DRAGONDROP_JOBID={request_json['job_run_id']}"
+    yml_file_path = "./env-vars.yml"
+    env_var_flag = f"--env-vars-file={yml_file_path}"
 
     request_var_to_env_var = {
+        "job_run_id": "JOBID",
         "is_module_mode": "ISMODULEMODE",
         "migration_history_storage": "MIGRATIONHISTORYSTORAGE",
         "provider_versions": "PROVIDERS",
@@ -94,15 +99,20 @@ def _generate_update_env_vars_string(request_json: dict) -> str:
         "vcs_base_branch": "VCSBASEBRANCH",
     }
 
+    env_var_dict = {}
+
     for request_var in request_var_to_env_var.keys():
         if request_var in request_json:
-            if request_var in {
-                "migration_history_storage",
-                "resource_white_list",
-                "resource_black_list",
-            }:
-                base_string += f",DRAGONDROP_{request_var_to_env_var[request_var]}='{request_json[request_var]}'"
-            else:
-                base_string += f",DRAGONDROP_{request_var_to_env_var[request_var]}={request_json[request_var]}"
+            env_var_dict[
+                f"DRAGONDROP_{request_var_to_env_var[request_var]}"
+            ] = request_json[request_var]
 
-    return base_string
+    if "DRAGONDROP_JOBID" not in env_var_dict:
+        raise ValueError(
+            "'job_run_id' must be included in the JSON body sent to this endpoint."
+        )
+
+    with open(yml_file_path, "w") as f:
+        yaml.dump(env_var_dict, f)
+
+    return env_var_flag, env_var_dict
