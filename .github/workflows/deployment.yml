@@ -2,7 +2,8 @@ name: Cloud Run Service Image Deployment to Google Artifact Repository
 on:
   push:
     branches:
-      - main
+      - dev
+      - prod
 
 jobs:
   go-binary-to-artifact-registry:
@@ -15,7 +16,7 @@ jobs:
 
     env:
       REGISTRY: "us-east4-docker.pkg.dev"
-      PATH_TO_CONTAINER: "dragondrop-dev/dragondrop-https-triggers/cloud-run-service"
+      PATH_TO_CONTAINER: "dragondrop-${{ github.ref_name }}/dragondrop-engine/engine"
 
     steps:
       - name: Checkout branch
@@ -26,8 +27,8 @@ jobs:
         uses: "google-github-actions/auth@v0"
         with:
           token_format: "access_token"
-          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+          workload_identity_provider: "projects/${{ secrets[format('PROJECT_ID_{0}', steps.uppercase_env.outputs.uppercase)] }}/locations/global/workloadIdentityPools/deploy-serverless-${{ github.ref_name }}/providers/github-actions"
+          service_account: "deploy-serverless-${{ github.ref_name }}@dragondrop-${{ github.ref_name }}.iam.gserviceaccount.com"
 
       - name: Docker Auth
         id: docker-auth
