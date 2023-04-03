@@ -22,6 +22,11 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v3
 
+      - id: uppercase_env
+        uses: ASzc/change-string-case-action@v5
+        with:
+          string: ${{ github.ref_name }}
+
       - name: Google Authentication
         id: auth
         uses: "google-github-actions/auth@v0"
