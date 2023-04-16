@@ -105,7 +105,7 @@ def _generate_update_env_vars_file(request_json: dict) -> Tuple[str, dict]:
         if request_var in request_json:
             env_var_dict[
                 f"DRAGONDROP_{request_var_to_env_var[request_var]}"
-            ] = request_json[request_var]
+            ] = str(request_json[request_var])
 
     if "DRAGONDROP_JOBID" not in env_var_dict:
         raise ValueError(
