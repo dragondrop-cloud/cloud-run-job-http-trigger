@@ -30,8 +30,8 @@ def test_generate_update_env_vars_string():
         output_dict,
         {
             "DRAGONDROP_JOBID": "my_id",
-            "DRAGONDROP_RESOURCEWHITELIST": '["google_example_resource"]',
-            "DRAGONDROP_RESOURCEBLACKLIST": '["google_storage_bucket", "aws_vpc"]',
+            "DRAGONDROP_RESOURCESWHITELIST": '["google_example_resource"]',
+            "DRAGONDROP_RESOURCESBLACKLIST": '["google_storage_bucket", "aws_vpc"]',
             "DRAGONDROP_ISMODULEMODE": "true",
         },
     )
