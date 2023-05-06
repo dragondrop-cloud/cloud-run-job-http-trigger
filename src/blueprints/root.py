@@ -81,38 +81,12 @@ def _generate_update_env_vars_file(request_json: dict) -> Tuple[str, dict]:
     yml_file_path = "./env-vars.yml"
     env_var_flag = f"--env-vars-file={yml_file_path}"
 
-    request_var_to_env_var = {
-        "job_run_id": "JOBID",
-        "is_module_mode": "ISMODULEMODE",
-        "migration_history_storage": "MIGRATIONHISTORYSTORAGE",
-        "provider_versions": "PROVIDERS",
-        "resource_white_list": "RESOURCESWHITELIST",
-        "resource_black_list": "RESOURCESBLACKLIST",
-        "reviewers": "PULLREVIEWERS",
-        "s3_bucket_name": "S3BACKENDBUCKET",
-        "state_backend": "STATEBACKEND",
-        "terraform_cloud_organization_name": "TERRAFORMCLOUDORGANIZATION",
-        "terraform_version": "TERRAFORMVERSION",
-        "vcs_system": "VCSSYSTEM",
-        "vcs_repo_name": "VCSREPO",
-        "vcs_user": "VCSUSER",
-        "vcs_base_branch": "VCSBASEBRANCH",
-    }
-
-    env_var_dict = {}
-
-    for request_var in request_var_to_env_var.keys():
-        if request_var in request_json:
-            env_var_dict[
-                f"DRAGONDROP_{request_var_to_env_var[request_var]}"
-            ] = str(request_json[request_var])
-
-    if "DRAGONDROP_JOBID" not in env_var_dict:
+    if "DRAGONDROP_JOBID" not in request_json:
         raise ValueError(
-            "'job_run_id' must be included in the JSON body sent to this endpoint."
+            "'DRAGONDROP_JOBID' must be included in the JSON body sent to this endpoint."
         )
 
     with open(yml_file_path, "w") as f:
-        yaml.dump(env_var_dict, f)
+        yaml.dump(request_json, f)
 
-    return env_var_flag, env_var_dict
+    return env_var_flag, request_json
