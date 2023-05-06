@@ -83,7 +83,7 @@ def _generate_update_env_vars_file(request_json: dict) -> Tuple[str, dict]:
 
     if "DRAGONDROP_JOBID" not in request_json:
         raise ValueError(
-            "'job_run_id' must be included in the JSON body sent to this endpoint."
+            "'DRAGONDROP_JOBID' must be included in the JSON body sent to this endpoint."
         )
 
     with open(yml_file_path, "w") as f:
