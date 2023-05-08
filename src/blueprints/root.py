@@ -18,8 +18,8 @@ def execute_cloud_run_job():
     """
     try:
         request_json = request.get_json()
-        if "job_run_id" not in request_json:
-            raise ValueError("Post request must contain a 'job_run_id'")
+        if "DRAGONDROP_JOBID" not in request_json:
+            raise ValueError("Post request must contain a 'DRAGONDROP_JOBID'")
 
         job_name = os.getenv("JOB_NAME")
         job_region = os.getenv("JOB_REGION")
