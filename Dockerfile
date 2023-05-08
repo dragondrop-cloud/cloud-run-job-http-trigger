@@ -1,4 +1,4 @@
-FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:403.0.0-slim
+FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:429.0.0-slim
 
 ENV PYTHONBUFFERED True
 
