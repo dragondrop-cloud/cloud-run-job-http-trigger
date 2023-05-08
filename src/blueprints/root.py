@@ -18,9 +18,6 @@ def execute_cloud_run_job():
     """
     try:
         request_json = request.get_json()
-        if "DRAGONDROP_JOBID" not in request_json:
-            raise ValueError("Post request must contain a 'DRAGONDROP_JOBID'")
-
         job_name = os.getenv("JOB_NAME")
         job_region = os.getenv("JOB_REGION")
         region_flag = f"--region={job_region}"
@@ -86,7 +83,11 @@ def _generate_update_env_vars_file(request_json: dict) -> Tuple[str, dict]:
             "'DRAGONDROP_JOBID' must be included in the JSON body sent to this endpoint."
         )
 
+    env_var_dict = {}
+    for key, value in request_json.items():
+        env_var_dict[key] = str(value)
+
     with open(yml_file_path, "w") as f:
-        yaml.dump(request_json, f)
+        yaml.dump(env_var_dict, f)
 
     return env_var_flag, request_json
