@@ -78,9 +78,9 @@ def _generate_update_env_vars_file(request_json: dict) -> Tuple[str, dict]:
     yml_file_path = "./env-vars.yml"
     env_var_flag = f"--env-vars-file={yml_file_path}"
 
-    if "DRAGONDROP_JOBID" not in request_json:
+    if "CLOUDCONCIERGE_JOBID" not in request_json:
         raise ValueError(
-            "'DRAGONDROP_JOBID' must be included in the JSON body sent to this endpoint."
+            "'CLOUDCONCIERGE_JOBID' must be included in the JSON body sent to this endpoint."
         )
 
     env_var_dict = {}
