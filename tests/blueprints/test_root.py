@@ -8,10 +8,10 @@ def test_generate_update_env_vars_string():
     case = TestCase()
 
     input_request_json_all_vars = {
-        "DRAGONDROP_JOBID": "my_id",
-        "DRAGONDROP_RESOURCESWHITELIST": '["google_example_resource"]',
-        "DRAGONDROP_RESOURCESBLACKLIST": '["google_storage_bucket", "aws_vpc"]',
-        "DRAGONDROP_ISMODULEMODE": "true",
+        "CLOUDCONCIERGE_JOBID": "my_id",
+        "CLOUDCONCIERGE_RESOURCESWHITELIST": '["google_example_resource"]',
+        "CLOUDCONCIERGE_RESOURCESBLACKLIST": '["google_storage_bucket", "aws_vpc"]',
+        "CLOUDCONCIERGE_ISMODULEMODE": "true",
     }
 
     file_flag, output_dict = _generate_update_env_vars_file(input_request_json_all_vars)
@@ -19,9 +19,9 @@ def test_generate_update_env_vars_string():
     case.assertDictEqual(
         output_dict,
         {
-            "DRAGONDROP_JOBID": "my_id",
-            "DRAGONDROP_RESOURCESWHITELIST": '["google_example_resource"]',
-            "DRAGONDROP_RESOURCESBLACKLIST": '["google_storage_bucket", "aws_vpc"]',
-            "DRAGONDROP_ISMODULEMODE": "true",
+            "CLOUDCONCIERGE_JOBID": "my_id",
+            "CLOUDCONCIERGE_RESOURCESWHITELIST": '["google_example_resource"]',
+            "CLOUDCONCIERGE_RESOURCESBLACKLIST": '["google_storage_bucket", "aws_vpc"]',
+            "CLOUDCONCIERGE_ISMODULEMODE": "true",
         },
     )
